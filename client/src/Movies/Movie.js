@@ -31,12 +31,14 @@ export default class Movie extends React.Component {
     addToSavedList(this.state.movie);
   };
 
-handleDelete = event => {
-  event.preventDefault();
-  axios
-  .delete(`http://localhost:5000/api/movies/${this.state.movie.id}`)
-  .then(response => console.log(response))
-};
+  handleDelete = event => {
+    event.preventDefault();
+    axios
+      .delete(`http://localhost:5000/api/movies/${this.state.movie.id}`)
+      .then(response => {
+        this.props.history.push('/')
+      })
+  };
 
   render() {
     if (!this.state.movie) {
@@ -45,9 +47,12 @@ handleDelete = event => {
 
     return (
       <div className="save-wrapper">
-        <MovieCard movie={this.state.movie} />
+
+        <MovieCard movie={this.state.movie} handleDelete={this.handleDelete} />
+
         <div className="save-button" onClick={this.saveMovie}>
           Save
+
         </div>
         <button onClick={() => this.props.history.push(`/update-movie/${this.state.movie.id}`)} >Edit</button>
         <button onClick={this.handleDelete} >Delete</button>
