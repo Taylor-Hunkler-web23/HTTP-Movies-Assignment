@@ -29,7 +29,7 @@ const UpdateForm = props => {
         setMovie({
             ...movie,
             [event.target.name]: event.target.value
-           
+
         })
     }
 
@@ -37,9 +37,13 @@ const UpdateForm = props => {
         event.preventDefault();
 
         axios
-        .put(`http://localhost:5000/api/movies/${movie.id}`, movie)
-            .then(response => console.log(response))
-            
+            .put(`http://localhost:5000/api/movies/${movie.id}`, movie)
+            .then(response => {
+                props.setMovie([...props.movie, response.data])
+                props.history.push('/')
+            })
+            .catch(err => console.log(err))
+
 
     }
 
